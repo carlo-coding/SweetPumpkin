@@ -59,7 +59,7 @@ async function currentUser() {
 async function logout() {
     await Parse.User.logOut();
 }
-
+       
 export default {
     saveUser,
     login,
