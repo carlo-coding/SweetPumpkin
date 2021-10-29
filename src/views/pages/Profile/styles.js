@@ -12,7 +12,7 @@ export const PageContainer = style.div`
         position: relative;
         background: #FFF;
         margin-top: 2rem;
-        width: 700px;
+        width: 70vw;
         height: 500px;
         overflow: hidden;
         border-radius: 10px 50px;
@@ -31,25 +31,61 @@ export const PageContainer = style.div`
 
 export const BackgroundGradient = style.div`
     margin-top: 2rem;
-    width: 700px;
+    width: 70vw;
     height: 500px;  
     position: absolute;
     border-radius: 10px 50px;
-    filter: blur(0.5rem);
-    background: linear-gradient(#DD0DF5, #6A18B8, #22DFA6);
+    filter: blur(0.2rem);
+    background: linear-gradient(#E30D0D, #6A18B8);
 `;
 
 export const UserInfo = style.div`
     height: 200px;
+    min-width: 300px;
     padding: 0 1em;
     margin: auto 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
+    & > div {
+        padding: 0.5em;
+    }
+
     & > span {
         width: 100%;
         height: 3px;
-        background: linear-gradient(to right, #DD0DF5, #22DFA6 80%);
+        background: linear-gradient(to right, #DD0DF5, #DD0DF5);
+    }
+`;
+
+export const EditInfo = style.div`
+    margin-top: 3rem;
+    width: 70vw;
+    position: relative;
+    border-radius: 10px 20px;
+    background: #FFF;
+
+    &::before {
+        content: "";
+        width: 100%;
+        height: 100%;  
+        position: absolute;
+        border-radius: 10px 20px;
+        filter: blur(0.2rem);
+        background: linear-gradient(#E30D0D, #6A18B8);
+        z-index: -1;
+    }
+
+    & > a {
+        display: flex;
+        text-decoration: none;
+        align-items: center;
+
+        & > * {
+            margin: 0 0.2rem;
+        }
+
+        margin: 1em 0.2em;
     }
 `;

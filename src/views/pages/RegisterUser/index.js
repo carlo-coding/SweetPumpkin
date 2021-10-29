@@ -6,7 +6,7 @@ import { createNewUser } from "../../../application/actions/users";
 import { uploadFile } from "../../../application/actions/files";
 import Text from "../../components/Validations/Text";
 import Image from "../../components/Validations/Image";
-import { PageContainer, SubmitButton } from "./styles";
+import { PageContainer, SubmitButton, Textarea } from "./styles";
 import { useHistory } from "react-router-dom";
 
 
@@ -40,11 +40,12 @@ export default function RegisterUser({}) {
                     return validImageExtension(value?.[0].name)
                 }
             ),
-            name: Yup.string().required("El nombre es requerido"),
-            lastName: Yup.string().required("El apellido es requerido"),
-            email: Yup.string().required("El email es requerido"),
-            password: Yup.string().required("La contraseña es requerida"),
+            name: Yup.string().required("El nombre es requerido").min(3, "Minimo 3 letras"),
+            lastName: Yup.string().required("El apellido es requerido").min(3, "Minimo 3 letras"),
+            email: Yup.string().email("Ingresa un email válido").required("El email es requerido"),
+            password: Yup.string().required("La contraseña es requerida").min(10, "Minimo 10 letras"),
             repeatPassword: Yup.string().oneOf([Yup.ref("password"), null], "Las contraseñas deben coincidir"),
+            about: Yup.string(),
         })
     });
 
@@ -72,6 +73,12 @@ export default function RegisterUser({}) {
                 <Text type="password" name="password" placeholder="Ingrese su contraseña" onChange={formik.handleChange} error={formik.errors.password}/>
 
                 <Text type="password" name="repeatPassword" placeholder="Repita su contraseña" onChange={formik.handleChange} error={formik.errors.repeatPassword}/>
+               
+                <Textarea 
+                name="about" 
+                placeholder="Escribe un poco sobre ti" 
+                onChange={formik.handleChange} 
+                ></Textarea>
 
                 <SubmitButton type="submit">Entregar</SubmitButton>
             </form>

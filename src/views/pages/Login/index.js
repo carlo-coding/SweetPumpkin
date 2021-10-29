@@ -21,7 +21,6 @@ export default function RegisterUser({}) {
         },
         onSubmit: (data) => {
             dispatch(loginUser(data));
-            history.push("/profile")
         },
         validationSchema: Yup.object({
             email: Yup.string().required("El email es requerido"),

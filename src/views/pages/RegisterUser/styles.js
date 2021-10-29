@@ -37,3 +37,10 @@ export const SubmitButton = style.button`
     margin: 1em 0;
     border-radius: 5px;
 `;
+
+
+export const Textarea = style.textarea`
+    width: 100%;
+    height: 100px;
+    border: 1px solid #582ECE;
+`;

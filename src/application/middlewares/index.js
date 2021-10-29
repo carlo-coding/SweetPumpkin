@@ -1,4 +1,6 @@
-import { flowCreateUser, flowLoginUser, flowGetCurrentUser, flowLogoutUser } from "./mdw_users";
+import { flowCreateUser, flowLoginUser, flowGetCurrentUser,
+     flowLogoutUser, flowGetAllUsers, flowGetUserById } from "./mdw_users";
+
 import { flowUploadFile } from "./mdw_files";
 
 
@@ -7,5 +9,7 @@ export default [
     flowUploadFile, 
     flowLoginUser, 
     flowGetCurrentUser, 
-    flowLogoutUser
+    flowLogoutUser,
+    flowGetAllUsers,
+    flowGetUserById
 ];

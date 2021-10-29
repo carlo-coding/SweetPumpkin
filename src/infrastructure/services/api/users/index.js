@@ -1,5 +1,5 @@
 import Parse from "parse";
-
+import { parseObjectToUser, createId } from "../../../../chest/utils";
 const APPLICATION_ID = process.env.PARSE_APPLICATION_ID || '2YSu7dqmdmWtt791VxY3tioYJztLGWVpfXjM3eUU';
 const HOST_URL = process.env.PARSE_HOST_URL || 'https://parseapi.back4app.com/';
 const JAVASCRIPT_KEY = process.env.PARSE_JAVASCRIPT_KEY || 'hdqhA76TdKyTFP1Udz4ToDzcE1ZQbVNnqlD1uT2x';
@@ -7,7 +7,10 @@ const JAVASCRIPT_KEY = process.env.PARSE_JAVASCRIPT_KEY || 'hdqhA76TdKyTFP1Udz4T
 Parse.initialize(APPLICATION_ID, JAVASCRIPT_KEY);
 Parse.serverURL = HOST_URL;
 
-async function saveUser(userData) {
+async function saveUser(data) {
+    let userData = data;
+    userData.userId = createId();
+    
     const {email, password} = userData;
     await Parse.User.signUp(email, password);
     delete userData.password;
@@ -29,40 +32,52 @@ async function login(userData) {
     userQuery.equalTo("email", email);
     const user = await userQuery.first();
 
-    return {message: "Logeado con éxito", user: {
-            name: user.get("name"),
-            lastName: user.get("lastName"),
-            email: user.get("email"),
-            fileUrl: user.get("fileUrl"),
-        }
-    };
+    return {message: "Logeado con éxito", user: parseObjectToUser(user)};
 }
 
 async function currentUser() {
     const currentUser = await Parse.User.current();
-    const email = currentUser.get("username");
+    const email = currentUser?.get("username");
 
-    // Buscamos la info del usuario
-    const userQuery = new Parse.Query("Users");
-    userQuery.equalTo("email", email);
-    const user = await userQuery.first();
-    return {
-        user: {
-            name: user.get("name"),
-            lastName: user.get("lastName"),
-            email: user.get("email"),
-            fileUrl: user.get("fileUrl"),
-        }
-    };
+    let payload = {user: null};
+    if (email) {
+        // Buscamos la info del usuario
+        const userQuery = new Parse.Query("Users");
+        userQuery.equalTo("email", email);
+        const user = await userQuery.first();
+        payload.user = parseObjectToUser(user);
+
+        
+    }
+
+    return payload
+}
+
+async function getAll() {
+    const query = new Parse.Query("Users");
+    const users = await query.findAll();
+    const payload = users.map(parseObjectToUser);
+    return payload;
 }
 
 async function logout() {
     await Parse.User.logOut();
+}
+
+async function byId(id) {
+// Buscamos la info del usuario
+const userQuery = new Parse.Query("Users");
+userQuery.equalTo("userId", id);
+const user = await userQuery.first();
+
+return {user: parseObjectToUser(user)};
 }
        
 export default {
     saveUser,
     login,
     currentUser,
-    logout
+    logout,
+    getAll,
+    byId
 }
