@@ -1,5 +1,6 @@
 import React from "react";
 import { createId } from "../../../chest/utils";
+import { Fieldset } from "./styles";
 
 
 
@@ -8,7 +9,7 @@ export default function Search({items, query, setQuery}) {
 
 
     return <> 
-        <fieldset>
+        <Fieldset>
             <legend>Buscar</legend>
             <div>
                 <input value={query} onChange={(e)=>setQuery(e.target.value)} list="data-list"/>
@@ -19,6 +20,6 @@ export default function Search({items, query, setQuery}) {
                     ))}
                 </datalist>
             </div>
-        </fieldset>
+        </Fieldset>
     </>;
 }

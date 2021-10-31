@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import SearchUser from "./pages/SearchUser";
 import EffectsManagement from "./components/EffectsManagement";
 import PublicProfile from "./pages/PublicProfile";
+import EditInfo from "./pages/EditInfo";
 import { HashRouter, Route, Switch } from "react-router-dom";
 
 export default function MainView({}) {
@@ -34,7 +35,10 @@ export default function MainView({}) {
                     <Route exact path="/search/user">
                         <SearchUser />
                     </Route>
+                    <Route exact path="/edit-info">
+                        <EditInfo />
+                    </Route>
                 </Switch>
         </HashRouter>
     )
-}
+}  

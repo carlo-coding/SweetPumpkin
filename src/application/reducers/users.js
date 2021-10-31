@@ -10,7 +10,8 @@ const initialState =  {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER_INFO:
-            return {loggedIn: Boolean(action.payload), data: action.payload};
+            let newData = state.data? {...state.data, ...action.payload} : action.payload;
+            return {loggedIn: Boolean(action.payload), data: newData};
         case SET_USERS:
             return {...state, all: action.payload};
         case SET_FOUND_USER: 

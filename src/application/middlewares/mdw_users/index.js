@@ -1,6 +1,6 @@
 import { GET_CURRENT_USER, CREATE_NEW_USER, LOGIN_USER, 
     LOGOUT_USER ,setUserInfo, GET_ALL_USERS, setUsers, 
-    GET_USER_BY_ID, setFoundUser } from "../../actions/users";
+    GET_USER_BY_ID, setFoundUser, UPDATE_USER } from "../../actions/users";
 import { setLocation } from "../../actions/location";
 import { showSuccess, showError } from "../../actions/alert";
 
@@ -66,6 +66,22 @@ export const flowGetUserById = ({ api }) => ({ dispatch }) => next => async acti
     if (action.type === GET_USER_BY_ID) {
         const {user} = await api.users.byId(action.payload);
         dispatch(setFoundUser(user));
+    }
+
+    next(action);
+}
+
+export const flowUpdateUser = ({ api }) => ({ dispatch }) => next => async action => {
+    if (action.type === UPDATE_USER) {
+        try {
+            const resp = await api.users.update(action.payload);
+            dispatch(showSuccess(resp.message));
+            dispatch(setUserInfo(action.payload));
+            dispatch(setLocation({href: "/profile", go: true}));
+
+        }catch(err) {
+            dispatch(showError(err.message))
+        }
     }
 
     next(action);

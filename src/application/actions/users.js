@@ -7,6 +7,7 @@ export const GET_ALL_USERS = "[user] get all users";
 export const SET_USERS = "[user] set users";
 export const GET_USER_BY_ID = "[user] get user by id";
 export const SET_FOUND_USER = "[user] set found user";
+export const UPDATE_USER = "[user] update user";
 
 export const createNewUser = (userData) => {
     return {
@@ -40,3 +41,5 @@ export const setUsers = (users) => ({type: SET_USERS, payload: users});
 export const getUserById = (id) => ({type: GET_USER_BY_ID, payload: id});
 
 export const setFoundUser = (user) => ({type: SET_FOUND_USER, payload: user});
+
+export const updateUser  = (user) => ({type: UPDATE_USER, payload: user});

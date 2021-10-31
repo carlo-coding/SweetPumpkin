@@ -11,7 +11,6 @@ export default function Profile({}) {
 
     return (
         <PageContainer>
-            <BackgroundGradient />
             <section>
                 <img src={user?.fileUrl}/>
                 <UserInfo>
@@ -26,7 +25,7 @@ export default function Profile({}) {
             </section>
 
             <EditInfo>
-                <Link to={"/profile/"+user.userId}>
+                <Link to={"/edit-info"}>
                     <p>Editar informacion</p><RiFileEditFill size={30}/>
                 </Link>
             </EditInfo>

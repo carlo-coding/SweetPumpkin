@@ -7,7 +7,8 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     if (action.type === SET_LOCATION) {
-        return {href: action.payload.href, go: action.payload.go};
+        console.log(action.payload)
+        return action.payload;
     }
     return state;
 }

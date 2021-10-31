@@ -1,5 +1,5 @@
 import style from "styled-components";
-
+//background: #3C3A3E;
 export const PageContainer = style.div`
     width: 100vw;
     min-height: 100vh;
@@ -8,9 +8,9 @@ export const PageContainer = style.div`
     align-items: center;
     position: relative;
 
-    & > section {
+    & > section { 
+        border: 1px solid #6314a8;
         position: relative;
-        background: #FFF;
         margin-top: 2rem;
         width: 70vw;
         height: 500px;
@@ -41,7 +41,7 @@ export const BackgroundGradient = style.div`
 
 export const UserInfo = style.div`
     height: 200px;
-    min-width: 300px;
+    min-width: 50%;
     padding: 0 1em;
     margin: auto 1rem;
     display: flex;
@@ -54,8 +54,8 @@ export const UserInfo = style.div`
 
     & > span {
         width: 100%;
-        height: 3px;
-        background: linear-gradient(to right, #DD0DF5, #DD0DF5);
+        height: 1px;
+        background: #6314a8;
     }
 `;
 
@@ -65,17 +65,7 @@ export const EditInfo = style.div`
     position: relative;
     border-radius: 10px 20px;
     background: #FFF;
-
-    &::before {
-        content: "";
-        width: 100%;
-        height: 100%;  
-        position: absolute;
-        border-radius: 10px 20px;
-        filter: blur(0.2rem);
-        background: linear-gradient(#E30D0D, #6A18B8);
-        z-index: -1;
-    }
+    border: 1px solid #6314a8;
 
     & > a {
         display: flex;

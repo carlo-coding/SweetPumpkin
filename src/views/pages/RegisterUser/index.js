@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createNewUser } from "../../../application/actions/users";
 import { uploadFile } from "../../../application/actions/files";
 import Text from "../../components/Validations/Text";
-import Image from "../../components/Validations/Image";
+import {Image} from "../../components/Validations/Image";
 import { PageContainer, SubmitButton, Textarea } from "./styles";
 import { useHistory } from "react-router-dom";
 

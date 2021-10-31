@@ -65,12 +65,30 @@ async function logout() {
 }
 
 async function byId(id) {
-// Buscamos la info del usuario
-const userQuery = new Parse.Query("Users");
-userQuery.equalTo("userId", id);
-const user = await userQuery.first();
+    // Buscamos la info del usuario
+    const userQuery = new Parse.Query("Users");
+    userQuery.equalTo("userId", id);
+    const user = await userQuery.first();
 
-return {user: parseObjectToUser(user)};
+    return {user: parseObjectToUser(user)};
+}
+
+async function update(user) {
+    const userQuery = new Parse.Query("Users");
+    userQuery.equalTo("userId", user.userId);
+    const foundUser = await userQuery.first();
+
+    foundUser.set("name", user.name)
+    foundUser.set("lastName", user.lastName)
+    foundUser.set("email", user.email)
+    foundUser.set("about", user.about)
+    foundUser.set("fileUrl", user.fileUrl)
+
+    foundUser.save();
+
+    return {message: "Editado con éxito"}
+
+
 }
        
 export default {
@@ -79,5 +97,6 @@ export default {
     currentUser,
     logout,
     getAll,
-    byId
+    byId,
+    update,
 }

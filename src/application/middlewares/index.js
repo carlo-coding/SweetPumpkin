@@ -1,5 +1,5 @@
 import { flowCreateUser, flowLoginUser, flowGetCurrentUser,
-     flowLogoutUser, flowGetAllUsers, flowGetUserById } from "./mdw_users";
+     flowLogoutUser, flowGetAllUsers, flowGetUserById, flowUpdateUser } from "./mdw_users";
 
 import { flowUploadFile } from "./mdw_files";
 
@@ -11,5 +11,6 @@ export default [
     flowGetCurrentUser, 
     flowLogoutUser,
     flowGetAllUsers,
-    flowGetUserById
+    flowGetUserById,
+    flowUpdateUser
 ];
