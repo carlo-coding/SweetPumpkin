@@ -1,11 +1,12 @@
 import Parse from "parse";
 import axios from "axios";
-const createId = ()=> Math.random().toString(16).slice(2);
+import { APPLICATION_ID, HOST_URL , JAVASCRIPT_KEY, REST_API_KEY } from "../../../../chest/config"; 
 
-const APPLICATION_ID = process.env.PARSE_APPLICATION_ID;
-const HOST_URL = process.env.PARSE_HOST_URL;
-const JAVASCRIPT_KEY = process.env.PARSE_JAVASCRIPT_KEY;
-const REST_API_KEY = process.env.PARSE_REST_API_KEY;
+const createId = ()=> Math.random().toString(16).slice(2);
+function initializeParse() {
+    Parse.initialize(APPLICATION_ID, JAVASCRIPT_KEY);
+    Parse.serverURL = HOST_URL;
+}
 
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -18,6 +19,7 @@ Parse.initialize(APPLICATION_ID, JAVASCRIPT_KEY);
 Parse.serverURL = HOST_URL;
 
 async function saveFile(file) {
+    initializeParse();
     try {
         // FIRST GET THE FILE ON BASE64
         const id = createId();

@@ -1,9 +1,6 @@
 import Parse from "parse";
 import { parseObjectToUser, createId } from "../../../../chest/utils";
-
-const APPLICATION_ID = process.env.PARSE_APPLICATION_ID;
-const HOST_URL = process.env.PARSE_HOST_URL;
-const JAVASCRIPT_KEY = process.env.PARSE_JAVASCRIPT_KEY;
+import { APPLICATION_ID, HOST_URL , JAVASCRIPT_KEY, REST_API_KEY } from "../../../../chest/config"; 
 
 function initializeParse() {
     Parse.initialize(APPLICATION_ID, JAVASCRIPT_KEY);
