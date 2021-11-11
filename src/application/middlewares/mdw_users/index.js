@@ -1,7 +1,7 @@
 import { GET_CURRENT_USER, CREATE_NEW_USER, LOGIN_USER, 
     LOGOUT_USER ,setUserInfo, GET_ALL_USERS, setUsers, 
     GET_USER_BY_ID, setFoundUser, UPDATE_USER, UPDATE_PROFILE_IMAGE,
-    REQUEST_PASSWORD_RESET } from "../../actions/users";
+    REQUEST_PASSWORD_RESET, SEND_FRIEND_REQUEST } from "../../actions/users";
 import { setLocation } from "../../actions/location";
 import { showSuccess, showError } from "../../actions/alert";
 
@@ -120,5 +120,6 @@ export const flowRequestPasswordReset = ({ api }) => ({ dispatch }) => next => a
 
     next(action);
 }
+
 
 

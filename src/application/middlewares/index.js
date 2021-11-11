@@ -4,6 +4,8 @@ import { flowCreateUser, flowLoginUser, flowGetCurrentUser,
 
 import { flowUploadFile } from "./mdw_files";
 
+import { flowSendFriendRequest, flowGetFriendRequests } from "./mdw_friends";
+
 
 export default [
     flowCreateUser, 
@@ -15,5 +17,7 @@ export default [
     flowGetUserById,
     flowUpdateUser,
     flowUpdateUserImage,
-    flowRequestPasswordReset
+    flowRequestPasswordReset,
+    flowSendFriendRequest,
+    flowGetFriendRequests
 ];

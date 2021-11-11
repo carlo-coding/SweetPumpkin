@@ -9,6 +9,10 @@ import ReactTooltip from 'react-tooltip';
 export default function Profile({}) {
     const user = useSelector(state=> state.users.data);
 
+    const friendRequests = useSelector(state=> state.friends?.friendRequests);
+
+    console.log("FRIENDS", friendRequests);
+
     console.log("USUARIO: ", user);
     return (
         

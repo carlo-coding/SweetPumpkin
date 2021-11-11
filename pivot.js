@@ -42,5 +42,8 @@ fase 4:
 fase 5:
     crear grupos con amigos.
 
+fase 6:
+    responsive.
+
 
 */

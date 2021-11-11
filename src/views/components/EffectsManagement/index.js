@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { resetAlert } from "../../../application/actions/alert";
 import { setLocation } from "../../../application/actions/location";
 import { getCurrentUser, getAllUsers } from "../../../application/actions/users";
+import { getFriendRequests } from "../../../application/actions/friends";
 
 export default function EffectsManagement({}) {
     const alert = useSelector((state)=>state.alert);
@@ -26,7 +27,10 @@ export default function EffectsManagement({}) {
         }
     }, [alert]);
 
-    useEffect(()=> { dispatch(getCurrentUser) }, []);
+    useEffect(()=> { 
+        dispatch(getCurrentUser);
+        dispatch(getFriendRequests())
+     }, []);
 
 
     useEffect(()=> { 

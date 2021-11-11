@@ -10,6 +10,7 @@ export const SET_FOUND_USER = "[user] set found user";
 export const UPDATE_USER = "[user] update user";
 export const UPDATE_PROFILE_IMAGE = "[user] profile image";
 export const REQUEST_PASSWORD_RESET = "[user] request password reset";
+;
 
 export const createNewUser = (userData) => {
     return {

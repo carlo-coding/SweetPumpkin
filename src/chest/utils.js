@@ -11,6 +11,7 @@ export const parseObjectToUser = (parseObject) => parseObject
     userId: parseObject?.get("userId"),
     date: parseObject?.get("date"),
     emailVerified : parseObject?.get("emailVerified"),
+    friends : parseObject?.get("friends"),
 }) 
 : undefined;
 

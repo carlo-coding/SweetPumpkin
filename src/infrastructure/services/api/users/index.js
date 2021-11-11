@@ -32,25 +32,24 @@ async function login(userData) {
     initializeParse();
     // Hacemos el login con parse
     const { email, password } = userData;
-    const user = await Parse.User.logIn(email, password);
+    const user = await (await Parse.User.logIn(email, password)).toJSON();
     
-    return {message: "Logeado con éxito", user: parseObjectToUser(user)};
+    return {message: "Logeado con éxito", user};
 }
 
 async function currentUser() {
     initializeParse();
-    const currentUser = await Parse.User.current();
+    const currentUser = await (await Parse.User.current()).toJSON();
 
-    const payload = parseObjectToUser(currentUser);
 
-    return payload;
+    return currentUser;
 }
 
 async function getAll() {
     initializeParse();
     const query = new Parse.Query("User");
     const users = await query.findAll();
-    const payload = users.map(parseObjectToUser);
+    const payload = users.map(parseObjectToUser );
     return payload;
 }
 
@@ -64,8 +63,8 @@ async function byId(id) {
     // Buscamos la info del usuario
     const userQuery = new Parse.Query("User");
     userQuery.equalTo("userId", id);
-    const user = await userQuery.first();
-    return {user: parseObjectToUser(user)};
+    const user = await (await userQuery.first()).toJSON();
+    return { user };
 }
 
 async function update(user) {
@@ -92,6 +91,7 @@ async function passwordReset(email) {
     await Parse.User.requestPasswordReset(email);
     return {message: "Te hemos enviado un email para cambiar tu contraseña"}
 }
+
        
 export default {
     saveUser,
@@ -101,5 +101,5 @@ export default {
     getAll,
     byId,
     update,
-    passwordReset
+    passwordReset,
 }
