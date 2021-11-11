@@ -5,11 +5,13 @@ const APPLICATION_ID = process.env.PARSE_APPLICATION_ID;
 const HOST_URL = process.env.PARSE_HOST_URL;
 const JAVASCRIPT_KEY = process.env.PARSE_JAVASCRIPT_KEY;
 
-Parse.initialize(APPLICATION_ID, JAVASCRIPT_KEY);
-
-Parse.serverURL = HOST_URL;
+function initializeParse() {
+    Parse.initialize(APPLICATION_ID, JAVASCRIPT_KEY);
+    Parse.serverURL = HOST_URL;
+}
 
 async function saveUser(data) {
+    initializeParse()
     // Insert a custom id to the data
     let userData = data;
     userData.userId = createId();
@@ -30,6 +32,7 @@ async function saveUser(data) {
 }
 
 async function login(userData) {
+    initializeParse();
     // Hacemos el login con parse
     const { email, password } = userData;
     const user = await Parse.User.logIn(email, password);
@@ -38,6 +41,7 @@ async function login(userData) {
 }
 
 async function currentUser() {
+    initializeParse();
     const currentUser = await Parse.User.current();
 
     const payload = parseObjectToUser(currentUser);
@@ -46,6 +50,7 @@ async function currentUser() {
 }
 
 async function getAll() {
+    initializeParse();
     const query = new Parse.Query("User");
     const users = await query.findAll();
     const payload = users.map(parseObjectToUser);
@@ -53,10 +58,12 @@ async function getAll() {
 }
 
 async function logout() {
+    initializeParse();
     await Parse.User.logOut();
 }
 
 async function byId(id) {
+    initializeParse();
     // Buscamos la info del usuario
     const userQuery = new Parse.Query("User");
     userQuery.equalTo("userId", id);
@@ -65,6 +72,7 @@ async function byId(id) {
 }
 
 async function update(user) {
+    initializeParse();
     const userQuery = new Parse.Query("User");
     userQuery.equalTo("userId", user.userId);
     const foundUser = await userQuery.first();
@@ -83,6 +91,7 @@ async function update(user) {
 }
 
 async function passwordReset(email) {
+    initializeParse();
     await Parse.User.requestPasswordReset(email);
     return {message: "Te hemos enviado un email para cambiar tu contraseña"}
 }
