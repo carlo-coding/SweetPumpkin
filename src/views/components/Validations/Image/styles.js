@@ -19,7 +19,7 @@ export const AddFile = style.button`
 `;
 
 export const Container = style.div`
-    width: 250px;
+    width: 100%;
     position: relative;
     margin: 0.3rem 0;
     border: 1px solid #6A18B8;

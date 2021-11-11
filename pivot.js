@@ -18,7 +18,29 @@ En otra carpeta se guarda la conexion con la base de datos (infraestructure).
 
 Finalmente un index.js para juntar todas estas capas usando 
 
+COSAS POR ARREGLAR ANTES DE COMENZAR LA FASE 2.
 
+1.- Mejorar la edición de informacion del usuario.  ✔
+2.- Añadir el campo de edad.                        ✔
+3.- Mejorar la api de manejo de usuarios            ✔
+4.- Mejorar los estilos                             ✔
+5.- Añadir boton de cambio de contraseña.           ✔
+6.- Añadir mecanismos de verificacion de email.     ✔
+
+
+//https://www.npmjs.com/package/react-tooltip
+
+fase 2: 
+    solicitudes de amistad
+
+fase 3:
+    publicaciones.
+
+fase 4:
+    chat en tiempo real.
+
+fase 5:
+    crear grupos con amigos.
 
 
 */

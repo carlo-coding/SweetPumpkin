@@ -8,6 +8,8 @@ export const SET_USERS = "[user] set users";
 export const GET_USER_BY_ID = "[user] get user by id";
 export const SET_FOUND_USER = "[user] set found user";
 export const UPDATE_USER = "[user] update user";
+export const UPDATE_PROFILE_IMAGE = "[user] profile image";
+export const REQUEST_PASSWORD_RESET = "[user] request password reset";
 
 export const createNewUser = (userData) => {
     return {
@@ -43,3 +45,7 @@ export const getUserById = (id) => ({type: GET_USER_BY_ID, payload: id});
 export const setFoundUser = (user) => ({type: SET_FOUND_USER, payload: user});
 
 export const updateUser  = (user) => ({type: UPDATE_USER, payload: user});
+
+export const updateProfileImge = (image) => ({type: UPDATE_PROFILE_IMAGE, payload: image});
+
+export const requestPasswordReset = (email) => ({type: REQUEST_PASSWORD_RESET, payload: email});

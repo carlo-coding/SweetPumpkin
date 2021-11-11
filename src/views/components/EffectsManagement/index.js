@@ -19,7 +19,7 @@ export default function EffectsManagement({}) {
                 icon: alert.type,
                 html: `<p style="font-family:'Poppins',sans-serif;font-size:1.3rem">${alert.message}</p>`,
                 showConfirmButton: false,
-                timer: 1000
+                timer: 3000,
             }).then(()=> {
                 dispatch(resetAlert);
             })

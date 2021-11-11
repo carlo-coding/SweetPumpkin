@@ -1,6 +1,7 @@
 import { GET_CURRENT_USER, CREATE_NEW_USER, LOGIN_USER, 
     LOGOUT_USER ,setUserInfo, GET_ALL_USERS, setUsers, 
-    GET_USER_BY_ID, setFoundUser, UPDATE_USER } from "../../actions/users";
+    GET_USER_BY_ID, setFoundUser, UPDATE_USER, UPDATE_PROFILE_IMAGE,
+    REQUEST_PASSWORD_RESET } from "../../actions/users";
 import { setLocation } from "../../actions/location";
 import { showSuccess, showError } from "../../actions/alert";
 
@@ -34,10 +35,10 @@ export const flowGetCurrentUser = ({ api }) => ({ dispatch }) => next => async a
     if (action.type === GET_CURRENT_USER) {
         try {
             const resp = await api.users.currentUser();
-            dispatch(setUserInfo(resp.user));
+            dispatch(setUserInfo(resp));
         }catch(err) {
             dispatch(showError(err.message))
-        }
+        } 
     }
     next(action);
 }
@@ -86,3 +87,38 @@ export const flowUpdateUser = ({ api }) => ({ dispatch }) => next => async actio
 
     next(action);
 }
+
+export const flowUpdateUserImage = ({ api }) => ({ dispatch }) => next => async action => {
+    if (action.type === UPDATE_PROFILE_IMAGE) {
+        try {
+
+            const fileUrl = await api.files.saveFile(action.payload);
+            const user = await api.users.currentUser();
+
+            await api.users.update({...user, fileUrl});
+            
+            const updatedUser = await api.users.currentUser();
+            dispatch(setUserInfo(updatedUser));
+
+        }catch(err) {
+            dispatch(showError(err.message))
+        }
+    }
+
+    next(action);
+}
+
+export const flowRequestPasswordReset = ({ api }) => ({ dispatch }) => next => async action => {
+    if (action.type === REQUEST_PASSWORD_RESET) {
+        try {
+            const { message } = await api.users.passwordReset(action.payload);
+            dispatch(showSuccess(message));
+        }catch(err) {
+            dispatch(showError(err.message))
+        }
+    }
+
+    next(action);
+}
+
+

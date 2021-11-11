@@ -1,60 +1,52 @@
 import Parse from "parse";
 import { parseObjectToUser, createId } from "../../../../chest/utils";
-const APPLICATION_ID = process.env.PARSE_APPLICATION_ID || '2YSu7dqmdmWtt791VxY3tioYJztLGWVpfXjM3eUU';
-const HOST_URL = process.env.PARSE_HOST_URL || 'https://parseapi.back4app.com/';
-const JAVASCRIPT_KEY = process.env.PARSE_JAVASCRIPT_KEY || 'hdqhA76TdKyTFP1Udz4ToDzcE1ZQbVNnqlD1uT2x';
+
+const APPLICATION_ID = process.env.PARSE_APPLICATION_ID;
+const HOST_URL = process.env.PARSE_HOST_URL;
+const JAVASCRIPT_KEY = process.env.PARSE_JAVASCRIPT_KEY;
 
 Parse.initialize(APPLICATION_ID, JAVASCRIPT_KEY);
+
 Parse.serverURL = HOST_URL;
 
 async function saveUser(data) {
+    // Insert a custom id to the data
     let userData = data;
     userData.userId = createId();
     
+    // Separate the email and password to signup 
     const {email, password} = userData;
-    await Parse.User.signUp(email, password);
+    const currentUser = await Parse.User.signUp(email, password);
+
+    // Delete passwords so they wont be saved directly
     delete userData.password;
     delete userData.repeatPassword;
 
-    const User = new Parse.Object("Users");
-    Object.entries(userData).forEach(feature => User.set(feature[0], feature[1]));
-    await User.save();
+    // Guardamos los datos restantes en el usuario creado
+    Object.entries(userData).forEach(feature => currentUser.set(feature[0], feature[1]));
+    await currentUser.save();
+
     return {message: "Usuario ingresado con éxito"}
 }
 
 async function login(userData) {
     // Hacemos el login con parse
     const { email, password } = userData;
-    await Parse.User.logIn(email, password);
+    const user = await Parse.User.logIn(email, password);
     
-    // Buscamos la info del usuario
-    const userQuery = new Parse.Query("Users");
-    userQuery.equalTo("email", email);
-    const user = await userQuery.first();
-
     return {message: "Logeado con éxito", user: parseObjectToUser(user)};
 }
 
 async function currentUser() {
     const currentUser = await Parse.User.current();
-    const email = currentUser?.get("username");
 
-    let payload = {user: null};
-    if (email) {
-        // Buscamos la info del usuario
-        const userQuery = new Parse.Query("Users");
-        userQuery.equalTo("email", email);
-        const user = await userQuery.first();
-        payload.user = parseObjectToUser(user);
+    const payload = parseObjectToUser(currentUser);
 
-        
-    }
-
-    return payload
+    return payload;
 }
 
 async function getAll() {
-    const query = new Parse.Query("Users");
+    const query = new Parse.Query("User");
     const users = await query.findAll();
     const payload = users.map(parseObjectToUser);
     return payload;
@@ -66,15 +58,14 @@ async function logout() {
 
 async function byId(id) {
     // Buscamos la info del usuario
-    const userQuery = new Parse.Query("Users");
+    const userQuery = new Parse.Query("User");
     userQuery.equalTo("userId", id);
     const user = await userQuery.first();
-
     return {user: parseObjectToUser(user)};
 }
 
 async function update(user) {
-    const userQuery = new Parse.Query("Users");
+    const userQuery = new Parse.Query("User");
     userQuery.equalTo("userId", user.userId);
     const foundUser = await userQuery.first();
 
@@ -90,6 +81,11 @@ async function update(user) {
 
 
 }
+
+async function passwordReset(email) {
+    await Parse.User.requestPasswordReset(email);
+    return {message: "Te hemos enviado un email para cambiar tu contraseña"}
+}
        
 export default {
     saveUser,
@@ -99,4 +95,5 @@ export default {
     getAll,
     byId,
     update,
+    passwordReset
 }

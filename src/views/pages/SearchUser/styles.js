@@ -15,17 +15,33 @@ export const Grid = style.div`
 `;
 
 export const UserCard = style.div`
-    width: 350px;
-    height: 300px;
+    width: 300px;
+    height: 350px;
     display: flex;
     flex-direction: column;
-    border: 1px solid blue;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed blue;
+    border-radius: 10px;
     padding: 1em;
     margin: 1em;
 
     & > img {
         width: 100px;
         height: 100px;
+        border-radius: 50%;
         object-fit: cover;
+    }
+
+    & > div {
+        display: flex;
+        & > a {
+            text-decoration: none;
+            color: #333;
+            padding: 0.2em 1.2em;
+            margin: 0.2em;
+            border: 1px solid blue;
+            border-radius: 10px;    
+        }
     }
 `;

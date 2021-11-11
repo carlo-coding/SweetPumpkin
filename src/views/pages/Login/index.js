@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from "../../../application/actions/users";
 import Text from "../../components/Validations/Text";
 import { PageContainer, SubmitButton } from "./styles";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 
 export default function RegisterUser({}) {
@@ -37,6 +37,7 @@ export default function RegisterUser({}) {
                 <Text type="password" name="password" placeholder="Ingrese su contraseña" onChange={formik.handleChange} error={formik.errors.password}/>
                 <SubmitButton type="submit">Entregar</SubmitButton>
             </form>
+            <Link to="change-password">¿Olvidaste tu contraseña?</Link>
         </PageContainer>
     );
 }

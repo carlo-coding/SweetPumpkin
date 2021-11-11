@@ -6,10 +6,10 @@ import { createNewUser } from "../../../application/actions/users";
 import { uploadFile } from "../../../application/actions/files";
 import Text from "../../components/Validations/Text";
 import {Image} from "../../components/Validations/Image";
-import { PageContainer, SubmitButton, Textarea } from "./styles";
+import { PageContainer, SubmitButton, Textarea, FormDiv } from "./styles";
 import { useHistory } from "react-router-dom";
 
-
+ 
 export default function RegisterUser({}) {
     const [userData, setUserData] = React.useState();
 
@@ -19,6 +19,8 @@ export default function RegisterUser({}) {
 
     const history = useHistory();
 
+    const atLeast17 = new Date(Date.now() - 536112000000); // Hoy menos 17 años en milisegundos
+
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -26,6 +28,7 @@ export default function RegisterUser({}) {
             email: "",
             password: "",
             repeatPassword: "",
+            date: "",
         },
         onSubmit: (data) => {
             dispatch(uploadFile(data.photo[0]));
@@ -45,7 +48,10 @@ export default function RegisterUser({}) {
             email: Yup.string().email("Ingresa un email válido").required("El email es requerido"),
             password: Yup.string().required("La contraseña es requerida").min(10, "Minimo 10 letras"),
             repeatPassword: Yup.string().oneOf([Yup.ref("password"), null], "Las contraseñas deben coincidir"),
-            about: Yup.string(),
+            date: Yup.date("Ingresa una fecha válida")
+            .required("La fecha es requerida")
+            .max(atLeast17, "Debes tener al menos 17 años"),
+            about: Yup.string().max(100, "Maximo 100 letras"),
         })
     });
 
@@ -61,26 +67,34 @@ export default function RegisterUser({}) {
         <PageContainer>
             <h4>Ingrese sus datos</h4>
             <form className="form-reg-user" onSubmit={formik.handleSubmit}>
-                Foto de perfil
-                <Image name="photo" error={formik.errors.photo} onChange={e=>formik.setFieldValue("photo", [...e.target.files])}/>
+                <FormDiv>
+                    Foto de perfil
+                    <Image name="photo" error={formik.errors.photo} onChange={e=>formik.setFieldValue("photo", [...e.target.files])}/>
+                    Fecha de nacimiento
+                    <Text type="date" name="date" placeholder="Fecha de nacimiento" onChange={formik.handleChange} error={formik.errors.date}/>
+                </FormDiv>
+                <FormDiv>
+                    <Text type="text" name="name" placeholder="Ingrese su nombre" onChange={formik.handleChange} error={formik.errors.name}/>
 
-                <Text type="text" name="name" placeholder="Ingrese su nombre" onChange={formik.handleChange} error={formik.errors.name}/>
+                    <Text type="text" name="lastName" placeholder="Ingrese su Apellido" onChange={formik.handleChange} error={formik.errors.lastName}/>
 
-                <Text type="text" name="lastName" placeholder="Ingrese su Apellido" onChange={formik.handleChange} error={formik.errors.lastName}/>
+                    <Text type="email" name="email" placeholder="Ingrese email" onChange={formik.handleChange} error={formik.errors.email}/>
 
-                <Text type="email" name="email" placeholder="Ingrese email" onChange={formik.handleChange} error={formik.errors.email}/>
+                    <Text type="password" name="password" placeholder="Ingrese su contraseña" onChange={formik.handleChange} error={formik.errors.password}/>
 
-                <Text type="password" name="password" placeholder="Ingrese su contraseña" onChange={formik.handleChange} error={formik.errors.password}/>
-
-                <Text type="password" name="repeatPassword" placeholder="Repita su contraseña" onChange={formik.handleChange} error={formik.errors.repeatPassword}/>
+                    <Text type="password" name="repeatPassword" placeholder="Repita su contraseña" onChange={formik.handleChange} error={formik.errors.repeatPassword}/>
+                    
                
-                <Textarea 
-                name="about" 
-                placeholder="Escribe un poco sobre ti" 
-                onChange={formik.handleChange} 
-                ></Textarea>
-
-                <SubmitButton type="submit">Entregar</SubmitButton>
+                    <Textarea 
+                        name="about" 
+                        placeholder="Escribe un poco sobre ti" 
+                        onChange={formik.handleChange} 
+                    ></Textarea>
+                </FormDiv>
+                
+                <FormDiv>
+                    <SubmitButton type="submit">Entregar</SubmitButton>
+                </FormDiv>
             </form>
         </PageContainer>
     );

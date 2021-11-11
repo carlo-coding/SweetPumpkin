@@ -3,21 +3,16 @@ import {useUpdateEffect} from "../../../chest/CustomHooks";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useSelector, useDispatch } from 'react-redux';
-import { updateUser } from "../../../application/actions/users";
-import { uploadFile, fileInfo } from "../../../application/actions/files";
+import { updateUser, updateProfileImge } from "../../../application/actions/users";
 import Text from "../../components/Validations/Text";
 import {Image, USLImage, validImageExtension} from "../../components/Validations/Image";
 import { PageContainer, SubmitButton, Textarea } from "./styles";
-import { useHistory } from "react-router-dom";
 
 
 
 export default function RegisterUser({}) {
     const user = useSelector(state => state.users.data);
-    const [userData, setUserData] = React.useState();
-    const [submited, setSubmited] = React.useState(false);
     
-
     const fileUrl = useSelector(state=> state.files.fileUrl);
 
     const dispatch = useDispatch();
@@ -31,11 +26,11 @@ export default function RegisterUser({}) {
             email: "",
         },
         onSubmit: (data) => {
-            (data.photo?.[0])
-            ? dispatch(uploadFile(data.photo?.[0])) 
-            : dispatch(fileInfo(user.fileUrl));
-            setUserData(data);    
-            setSubmited(true);
+            const {userId} = user;
+            dispatch(updateUser({...data, userId}))
+            if (data.photo?.[0]) {
+                dispatch(updateProfileImge(data.photo?.[0]));
+            }
         },
         validationSchema: Yup.object({
             photo: Yup.array().nullable().test(
@@ -55,13 +50,6 @@ export default function RegisterUser({}) {
             about: Yup.string(),
         })
     });
-
-    useUpdateEffect(()=> {
-        if (submited) {
-            const {userId} = user;
-            dispatch(updateUser({...userData, userId, fileUrl}))
-        }
-    }, [fileUrl]);
 
     
     return (

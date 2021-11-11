@@ -6,7 +6,7 @@ export const PageContainer = style.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-
+ 
     & > h4 { 
         font-weight: 500;
         font-size: 1.3rem;
@@ -15,7 +15,24 @@ export const PageContainer = style.div`
     }
 
     & > form {
-        width: 500px;
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: minmax(100px, auto);
+        width: 60%;
+
+        & > div:nth-child(1) { /* Es el div que contiene a la seleccion de la imagen entre otros */
+            & > * {
+                margin: .5em 0;
+            }
+        }
+
+        & > div:nth-child(3) { /* Es el div que contiene al boton*/
+            grid-column: 1 / 3;
+
+            display: flex;
+            align-items: center;
+        }
     }
 `;
 
@@ -33,9 +50,9 @@ export const SubmitButton = style.button`
     align-items: center;
     justify-content: center;
     position: relative;
-    min-width: 100%;
+    width: 95%;
     margin: 1em 0;
-    border-radius: 5px;
+    border-radius: 5px; 
 `;
 
 
@@ -43,4 +60,9 @@ export const Textarea = style.textarea`
     width: 100%;
     height: 100px;
     border: 1px solid #582ECE;
+`;
+
+export const FormDiv = style.div`
+    display: flex;
+    flex-direction: column;
 `;

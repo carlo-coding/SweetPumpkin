@@ -24,8 +24,12 @@ function SearchUser({users}) {
                     <UserCard key={createId()}>
                         <img src={user.fileUrl}/>
                         <p>{properName(user.name, user.lastName)}</p>
-                        <p>{user.email}</p>
-                        <Link to={"/profile/"+user.userId} >Visitar</Link>
+                        <p>{user.about.slice(0, 100) + (user.about.length>100 ? "..." : "")}</p>
+                        {!user.emailVerified && <small>Email sin verificar</small>}
+                        <div>
+                            <Link to={"/profile/"+user.userId} >Visitar</Link>
+                            <Link to={"/profile/"+user.userId} >Agregar</Link>
+                        </div>
                     </UserCard>
                 )
             })}

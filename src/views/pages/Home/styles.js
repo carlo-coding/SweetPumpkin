@@ -7,5 +7,12 @@ export const PageContainer = style.div`
     flex-direction: column;
     align-items: center;
 
+    & > p {
+        width: 80%;
+    }
+
+    & > span {
+        color: #FFC3BA;
+    }
 `;
 
