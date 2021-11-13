@@ -10,9 +10,9 @@ function initializeParse() {
 async function friendRequest(userId) {
     initializeParse();
     const currentUser = await Parse.User.current().toJSON();
-    const friendRequests = new Parse.Object("FRequests");
+    const friendRequests = new Parse.Object("FriendRequests");
 
-    friendRequests.set("from", currentUser.userId);
+    friendRequests.set("from", currentUser);
     friendRequests.set("to", userId);
     friendRequests.set("accepted", false);
 
@@ -22,11 +22,14 @@ async function friendRequest(userId) {
 }
 
 async function getFriendRequests() {
-    const query = new Parse.Query("FRequests");
+    const query = new Parse.Query("FriendRequests");
     const { userId } = await Parse.User.current().toJSON();
     query.contains("to", userId);
 
-    const resp = (await query.find()).map(res => res.toJSON());
+
+    const resp = (await query.find()).map(res => res.toJSON().from);
+
+    console.log("FRIENDS: ", resp);
 
     return { friends: resp }
 }
