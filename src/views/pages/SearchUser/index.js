@@ -33,7 +33,7 @@ function SearchUser({users}) {
                         {!user.emailVerified && <small>Email sin verificar</small>}
                         <div>
                             <Link to={"/profile/"+user.userId} >Visitar</Link>
-                            {!(friends.find(friend => friend.userId === user.userId))
+                            {!(friends?.find(friend => friend.userId === user.userId))
                             ?<Link to={"/"} onClick={e=>{
                                 e.preventDefault();
                                 dispatch(sendFriendRequest(user.userId));
