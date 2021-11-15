@@ -11,6 +11,7 @@ import PasswordReset from './pages/PasswordReset';
 import EditInfo from "./pages/EditInfo";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
+import WriteBlog from "./pages/WriteBlog";
 
 export default function MainView({}) {
     const user = useSelector(state=> state.users.data);
@@ -45,6 +46,9 @@ export default function MainView({}) {
                         <Route exact path="/edit-info">
                             <EditInfo />
                         </Route>    
+                        <Route exact path="/write-blog">
+                            <WriteBlog />
+                        </Route>
                 </Switch>
         </HashRouter>
     )

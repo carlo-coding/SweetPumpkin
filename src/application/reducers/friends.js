@@ -5,6 +5,7 @@ const initialState =  {
 }
 
 const reducer = (state = initialState, action) => {
+    console.log("friends from reducer: ", action)
     switch (action.type) {
         case SET_FRIEND_REQUESTS:
             return {friendRequests: action.payload};

@@ -9,10 +9,15 @@ export const PageContainer = style.div`
 
     & > p {
         width: 80%;
+        text-align: center;
     }
 
     & > span {
         color: #FFC3BA;
+    }
+
+    & > img {
+        margin: 2rem;
     }
 `;
 

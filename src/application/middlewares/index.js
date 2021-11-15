@@ -1,11 +1,31 @@
-import { flowCreateUser, flowLoginUser, flowGetCurrentUser,
-     flowLogoutUser, flowGetAllUsers, flowGetUserById, flowUpdateUser,
-     flowUpdateUserImage, flowRequestPasswordReset } from "./mdw_users";
+import { 
+    flowCreateUser, 
+    flowLoginUser, 
+    flowGetCurrentUser,
+    flowLogoutUser, 
+    flowGetAllUsers, 
+    flowGetUserById, 
+    flowUpdateUser,
+    flowUpdateUserImage,
+    flowRequestPasswordReset 
+} from "./mdw_users";
 
-import { flowUploadFile } from "./mdw_files";
+import { 
+    flowUploadFile 
+} from "./mdw_files";
 
-import { flowSendFriendRequest, flowGetFriendRequests } from "./mdw_friends";
+import { 
+    flowSendFriendRequest, 
+    flowGetFriendRequests,
+    flowAcceptFriend,
+    flowDeclineFriend,
+    flowDeleteFriend 
+} from "./mdw_friends";
 
+import {
+    flowPostBlog,
+    flowGetBlogs
+} from "./mdw_blogs";
 
 export default [
     flowCreateUser, 
@@ -19,5 +39,10 @@ export default [
     flowUpdateUserImage,
     flowRequestPasswordReset,
     flowSendFriendRequest,
-    flowGetFriendRequests
+    flowGetFriendRequests,
+    flowDeclineFriend,
+    flowAcceptFriend,
+    flowDeleteFriend,
+    flowPostBlog,
+    flowGetBlogs
 ];

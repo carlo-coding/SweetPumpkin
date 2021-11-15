@@ -31,10 +31,10 @@ COSAS POR ARREGLAR ANTES DE COMENZAR LA FASE 2.
 //https://www.npmjs.com/package/react-tooltip
 
 fase 2: 
-    solicitudes de amistad
+    solicitudes de amistad ✔
 
 fase 3:
-    publicaciones.
+    publicaciones.  ✔
 
 fase 4:
     chat en tiempo real.

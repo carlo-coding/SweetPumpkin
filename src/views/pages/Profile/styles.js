@@ -4,6 +4,7 @@ export const PageContainer = style.div`
     width: 100vw;
     min-height: 100vh;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -18,6 +19,10 @@ export const PageContainer = style.div`
         overflow: hidden;
         border-radius: 10px;
         display: flex;
+        
+        @media (max-width: 702px) {
+            order: 1;
+        }
 
         & > span:nth-child(2) {
             position: absolute;
@@ -101,6 +106,15 @@ export const EditInfo = style.div`
     flex-direction: column;
     align-items: center;
 
+    @media (max-width: 920px) {
+        width: 70vw;
+        height: 100px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        order: 2;
+    }
+
     & > a {
         display: flex;
         text-decoration: none;
@@ -113,5 +127,59 @@ export const EditInfo = style.div`
         }
 
         margin: 1em 0.2em;
+    }
+`;
+
+export const FRequests = style.div`
+    width: 200px;
+    height: 500px;
+    border: 1px solid #582ECE;
+    border-radius: 10px;
+    margin: 0.5em;
+    margin-top: 2rem;
+    padding: 0.5em;
+
+    @media (max-width: 702px) {
+        order: 3;
+        width: 70vw;
+        height: 300px;
+    }
+
+    & > div {
+        & div {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            & > button, a {
+                all: initial;
+                font-family: inherit;
+                font-size: 0.85rem;
+                cursor: pointer;
+                margin: 0 0.5em;
+            }
+            & > img {
+                width: 30px;
+                height: 30px;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+            & > button { font-size: 0.6rem;}
+        }
+    }
+
+`;
+
+export const BlogsContainer = style.div`
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    & > div {
+        border: 1px solid #ccc;
+        margin: 1em 0;
+        padding: 1em;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 `;

@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { resetAlert } from "../../../application/actions/alert";
 import { setLocation } from "../../../application/actions/location";
 import { getCurrentUser, getAllUsers } from "../../../application/actions/users";
+import { getBlogs } from "../../../application/actions/blogs";
 import { getFriendRequests } from "../../../application/actions/friends";
 
 export default function EffectsManagement({}) {
@@ -29,7 +30,8 @@ export default function EffectsManagement({}) {
 
     useEffect(()=> { 
         dispatch(getCurrentUser);
-        dispatch(getFriendRequests())
+        dispatch(getFriendRequests());
+        dispatch(getBlogs());
      }, []);
 
 
@@ -40,5 +42,5 @@ export default function EffectsManagement({}) {
         }
     }, [location]);
 
-    return (<></>);
+    return <></>
 }

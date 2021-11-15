@@ -10,6 +10,7 @@ import { Link } from "react-router-dom"
 
 function SearchUser({users}) {
     const allUsers = useSelector(state=>state.users.all);
+    const friends = useSelector(state=>state.users.data?.friends);
     const [query, setQuery] = useState("");
     const dispatch = useDispatch();
 
@@ -24,14 +25,21 @@ function SearchUser({users}) {
                     <UserCard key={createId()}>
                         <img src={user.fileUrl}/>
                         <p>{properName(user.name, user.lastName)}</p>
-                        <p>{user.about?.slice(0, 100) + (user.about?.length>100 ? "..." : "")}</p>
+                        <p>{
+                            (user.about)
+                            ? user.about?.slice(0, 100) + (user.about?.length>100 ? "..." : "")
+                            : ""
+                        }</p>
                         {!user.emailVerified && <small>Email sin verificar</small>}
                         <div>
                             <Link to={"/profile/"+user.userId} >Visitar</Link>
-                            <Link to={"/"} onClick={e=>{
+                            {!(friends.find(friend => friend.userId === user.userId))
+                            ?<Link to={"/"} onClick={e=>{
                                 e.preventDefault();
                                 dispatch(sendFriendRequest(user.userId));
                             }}>Agregar</Link>
+                            :<></>
+                        }
                         </div>
                     </UserCard>
                 )
