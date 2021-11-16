@@ -38,7 +38,7 @@ function SearchUser({users}) {
                                 e.preventDefault();
                                 dispatch(sendFriendRequest(user.userId));
                             }}>Agregar</Link>
-                            :<></>
+                            :<></> 
                         }
                         </div>
                     </UserCard>
