@@ -6,4 +6,4 @@ export const postBlog = (blog) => ({type: POST_BLOG, payload: blog});
 
 export const setBlogs = (blogs) => ({type: SET_BLOGS, payload: blogs});
 
-export const getBlogs = () => ({type: GET_BLOGS});
+export const getBlogs = (userId) => ({type: GET_BLOGS, payload: userId});

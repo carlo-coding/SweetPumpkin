@@ -4,6 +4,8 @@ export const SET_FRIEND_REQUESTS = "[friend] set friend request";
 export const ACCEPT_FRIEND = "[friend] accept friend";
 export const DECLINE_FRIEND = "[friend] decline friend";
 export const DELETE_FRIEND = "[friend] delete friend";
+export const GET_FRIENDS = "[friend] get friends";
+export const SET_FRIENDS = "[friend] set friends";
 
 export const sendFriendRequest = (userId) => ({type: SEND_FRIEND_REQUEST, payload: userId});
 
@@ -15,4 +17,8 @@ export const declineFriend = (friend)=> ({type: DECLINE_FRIEND, payload: friend}
 
 export const acceptFriend = (friend)=> ({type: ACCEPT_FRIEND, payload: friend});
 
-export const deleteFriend = (friend)=> ({type: DELETE_FRIEND, payload: friend})
+export const deleteFriend = (friend)=> ({type: DELETE_FRIEND, payload: friend});
+
+export const setFriends = (friends)=> ({type: SET_FRIENDS, payload: friends});
+
+export const getFriends = (userId)=> ({type: GET_FRIENDS, payload: userId});

@@ -7,12 +7,14 @@ function initializeParse() {
     Parse.serverURL = HOST_URL;
 }
 
+
 async function friendRequest(targetUserId) {
     initializeParse();
-    const currentUser = await Parse.User.current().toJSON();
-    const targetUser = await (new Parse.Query("User"))
+    const currentUser = await Parse.User.current()?.toJSON();
+    const targetUser = (await (new Parse.Query("User"))
                         .contains("userId", targetUserId)
-                        .first();
+                        .first())
+                        .toJSON();
     // No mandar solicitud al usuario que la manda
     if (targetUserId === currentUser.userId) {throw new Error("No es posible mandar la solicitud")};
     const friendRequests = new Parse.Object("FriendRequests");
@@ -28,7 +30,7 @@ async function friendRequest(targetUserId) {
     friendRequests.set("to", targetUserId);
 
     friendRequests.set("fromUser", currentUser);
-    friendRequests.set("toUser", targetUser.toJSON());
+    friendRequests.set("toUser", targetUser);
 
     friendRequests.set("accepted", false);
 
@@ -44,55 +46,55 @@ async function getFriendRequests() {
 
 
     const resp = (await query.find()) // Find 
-                .map(res => res.toJSON()) // To Json
+                .map(res => res?.toJSON()) // To Json
                 .filter(res => res.accepted === false); // Only the requests that are not accepted yet
+
+    return { friends: resp }
+}
+
+async function getFriends(id) {
+    const query1 = new Parse.Query("FriendRequests");
+    const query2 = new Parse.Query("FriendRequests");
+    const { userId } = await Parse.User.current().toJSON();
+    query1.equalTo("to", id || userId);
+    query2.equalTo("from", id || userId);
+    const orQuery = new Parse.Query.or(query1, query2);
+    const resp = (await orQuery.find()) // Find 
+                .map(res => res?.toJSON()) // To Json
+                .filter(res => res.accepted === true)// Only the requests that are accepted
+                .map(res => (res.from===userId)? res.toUser : res.fromUser);
 
     return { friends: resp }
 }
 
 async function accept({ from, to }) {
     initializeParse();
-    // Add friend to the list field on the user.
-    const currentUser = await Parse.User.current();
-    const friend = await (new Parse.Query("User"))
-                        .contains("userId", from)
-                        .first();
-
-    const friends = currentUser.friends || [];
-
-    currentUser.set("friends", [...friends, friend]);
-
-    await currentUser.save();
-
     const FriendRequests = new Parse.Query("FriendRequests");
     FriendRequests.contains("from", from);
     FriendRequests.contains("to", to);
     const foundFriendR = await FriendRequests.first();
     foundFriendR.set("accepted", true);
-
-    await foundFriendR.save()
+    foundFriendR.save();
 
     return {message: "Amigo añadido"}
 }
 
 async function decline({ to, from }) {
     // delete friend request from class in DB
-    const FriendRequests = new Parse.Query("FriendRequests");
-    FriendRequests.contains("from", from);
-    FriendRequests.contains("to", to);
-
-    const foundFriendR = await FriendRequests.first();
+    const frQuery1 = new Parse.Query("FriendRequests");
+    const frQuery2 = new Parse.Query("FriendRequests");
+    frQuery1.containedIn("from", [to, from]);
+    frQuery2.containedIn("to", [to, from]);
+    const FriendRequestsQuery = new Parse.Query.or(frQuery1, frQuery2);
+    const foundFriendR = await FriendRequestsQuery.first();
     await foundFriendR.destroy();
 
     return {message: "Solicitud eliminada"};
 }
        
 async function deleteFriend(friend) {
-    const currentUser = await Parse.User.current();
-    let friends = currentUser.toJSON().friends||[];
-    friends = friends.filter(fr => fr.userId !== friend.userId);
-    currentUser.set("friends", friends);
-    currentUser.save();
+    const { userId } = (await Parse.User.current()).toJSON();
+    await decline({from: friend.userId, to: userId});
     return {message: "Amigo eliminado"};
 }
 
@@ -102,6 +104,7 @@ export default {
     getFriendRequests,
     accept,
     decline,
-    deleteFriend
+    deleteFriend,
+    getFriends
 }
 

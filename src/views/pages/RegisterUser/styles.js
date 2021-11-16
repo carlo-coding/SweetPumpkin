@@ -33,6 +33,11 @@ export const PageContainer = style.div`
             display: flex;
             align-items: center;
         }
+
+        @media (max-width: 550px){
+            display: flex;
+            flex-direction: column;
+        }
     }
 `;
 

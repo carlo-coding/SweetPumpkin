@@ -18,13 +18,19 @@ export default function Navbar({}) {
             denyButtonText: `Cancelar`,
             denyButtonColor: "#D9D9D9",
             confirmButtonColor: "#6A18B8",
+            showClass: {
+                popup: "animate__fadeIn"
+            },
+            hideClass: {
+                popup: "animate__fadeOut"
+            }
         });
         if (isConfirmed) {
-            dispatch(logOut);
+            dispatch(logOut());
         }
     }
 
-    React.useEffect(()=> { console.log(loggedIn)}, [loggedIn]);
+    //React.useEffect(()=> { console.log(loggedIn)}, [loggedIn]);
 
     return (
         <Nav>

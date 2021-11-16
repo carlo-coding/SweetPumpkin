@@ -12,7 +12,6 @@ export function Image({error, ...args}) {
     }
 
     React.useEffect(()=> {
-        console.log(file)
         if (validImageExtension(file?.name)){
             const reader = new FileReader();
             reader.readAsDataURL(file);

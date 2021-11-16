@@ -1,88 +1,133 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { properName } from "../../../chest/utils";
-import { PageContainer, FRequests, UserInfo, EditInfo, BlogsContainer } from "./styles";
-import { RiFileEditFill, RiLockPasswordFill } from "react-icons/ri";
-import { MdOutlineArticle } from "react-icons/md";
+import 
+    React, { 
+    useEffect 
+} from "react";
+import { 
+    useDispatch,
+    connect
+} from "react-redux";
+import { 
+    Link 
+} from "react-router-dom";
+import { 
+    properName 
+} from "../../../chest/utils";
+import { 
+    PageContainer, 
+    FRequests, 
+    UserInfo, 
+    EditInfo, 
+    BlogsContainer,
+    ProfileSection
+} from "./styles";
+import {
+     RiFileEditFill, 
+     RiLockPasswordFill 
+    } from "react-icons/ri";
+import { 
+    MdOutlineArticle 
+} from "react-icons/md";
 import ReactTooltip from 'react-tooltip';
-import { acceptFriend, declineFriend, deleteFriend } from "../../../application/actions/friends";
+import { 
+    acceptFriend, 
+    declineFriend, 
+    deleteFriend, 
+    getFriendRequests,
+    getFriends 
+} from "../../../application/actions/friends";
+import {
+    getBlogs,
+} from "../../../application/actions/blogs";
+import {
+    getCurrentUser
+} from "../../../application/actions/users";
 
-export default function Profile({}) {
-    const user = useSelector(state=> state.users.data);
+import Avatar from "@mui/material/Avatar";
+
+import { createId } from "../../../chest/utils";
 
 
-    const { friendRequests } = useSelector(state=> state.friends);
+function Profile({ friendRequests, friends, blogs, user }) {
 
+    useEffect(()=> { 
+        dispatch(getCurrentUser());
+        dispatch(getFriendRequests());
+        dispatch(getBlogs());
+        dispatch(getFriends());
+     }, []);
     
     const dispatch = useDispatch();
 
 
     return <>
-        
         <PageContainer> 
-            <HandleFriends {...{user, friendRequests, dispatch}}/>
-            <section>
-                <span>
-                    <img src={user?.fileUrl} alt="profile picture"/>
-                </span>
-                {!(user?.emailVerified) && <span>Verifica tu email</span>}
-                <UserInfo>
-                    <span></span>
-                    {user && <div>
-                        <p>{properName(user.name, user.lastName)}</p>
-                        <p>{user.email}</p>
-                        {user.about && <p>Sobre {properName(user.name)}: {user.about}</p>}
-                        {user.date && <p>Fecha de nacimiento {user.date}</p>}
-                    </div>}
-                    <span></span> 
-                </UserInfo>
-            </section>
+            <div>
+                <EditInfo>
+                    <Link to={"/edit-info"} data-tip="Editar información">
+                        <RiFileEditFill size={25}/>
+                    </Link>
+                    <Link to={"/change-password"} data-tip="Cambiar contraseña">
+                        <RiLockPasswordFill size={25}/>
+                    </Link>
+                    <Link to={"/write-blog"} data-tip="Crear blog">
+                        <MdOutlineArticle size={25}/>
+                    </Link>
+                </EditInfo>
 
-            <EditInfo>
-                <Link to={"/edit-info"} data-tip="Editar información">
-                    <RiFileEditFill size={30}/>
-                </Link>
-                <Link to={"/change-password"} data-tip="Cambiar contraseña">
-                    <RiLockPasswordFill size={30}/>
-                </Link>
-                <Link to={"/write-blog"} data-tip="Crear blog">
-                    <MdOutlineArticle size={30}/>
-                </Link>
-            </EditInfo>
+                <ProfileSection>
+                    <span>
+                        <img src={user?.fileUrl} alt="profile picture"/>
+                    </span>
+                    {!(user?.emailVerified) && <span>Verifica tu email</span>}
+                    <UserInfo>
+                        <span></span>
+                        {user && <div>
+                            <p>{properName(user.name, user.lastName)}</p>
+                            <p>{user.email}</p>
+                            {user.about && <p>Sobre {properName(user.name)}: {user.about}</p>}
+                            {user.date && <p>Fecha de nacimiento {user.date}</p>}
+                        </div>}
+                        <span></span> 
+                    </UserInfo>
+                </ProfileSection>
 
-            <HandleBlogs/>
+                <HandleFriends {...{ friendRequests, friends }}/>
 
-            <ReactTooltip />
+                <HandleBlogs {...{blogs}}/>
+
+                <ReactTooltip />
+            </div>
         </PageContainer>
     </>;
 }
 
 
-function HandleBlogs() {
-    const blogs = useSelector(state=> state.blogs.all);
+function HandleBlogs({ blogs }) {
     return (
         <BlogsContainer>
             <p>Publicaciones</p>
             {blogs && (
-                blogs.map(blog=> <>
+                blogs.map((blog)=> <div key={createId()}>
                     {blog.date && <p>Fecha: {blog.date}</p>}
                     <div dangerouslySetInnerHTML={{__html: blog.content}}></div>
-                </>)
+                </div>)
                 )
             }
         </BlogsContainer>
     );
 }
 
-function HandleFriends({user, friendRequests, dispatch}) {
+function HandleFriends({ friendRequests, friends }) {
+
+    const dispatch = useDispatch();
+
     return (
         <FRequests>
-                <div>
+                <div> 
                     <p>Amigos</p>
-                    {(user?.friends?.length > 0 ) && (
+                    {(friends?.length > 0 ) && (
                         <div>
-                            {user.friends.map((fr, i)=> (
+                            {friends.map((fr, i)=> (
                                 <div key={i}>
                                     <img src={fr.fileUrl} alt="friend-image"/> 
                                     <Link to={"/profile/"+fr.userId}>{fr.name}</Link>
@@ -98,6 +143,7 @@ function HandleFriends({user, friendRequests, dispatch}) {
                         <div>
                             {friendRequests.map((fr, i)=> (
                                 <div key={i}>
+                                    <Avatar src={fr?.fromUser.fileUrl}/>
                                     <Link to={"/profile/"+fr?.fromUser.userId}>{fr?.fromUser.name}</Link>
                                     <button onClick={_=>dispatch(acceptFriend(fr))}>Aceptar</button>
                                     <button onClick={_=>dispatch(declineFriend(fr))}>Denegar</button>
@@ -109,3 +155,14 @@ function HandleFriends({user, friendRequests, dispatch}) {
             </FRequests>
     );
 }
+
+function mapStateToProps(state) {
+    return {
+        friendRequests: state.friends.friendRequests, 
+        friends: state.friends.friends,
+        user: state.users.data,
+        blogs: state.blogs.all
+    }
+}
+
+export default connect(mapStateToProps)(Profile);

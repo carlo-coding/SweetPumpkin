@@ -6,6 +6,11 @@ export const PageContainer = style.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    & > *:nth-child(1) {
+        margin: 2rem;
+        width: 40%;
+    }
 `;
 
 export const Grid = style.div`

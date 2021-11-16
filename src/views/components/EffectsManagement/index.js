@@ -6,10 +6,12 @@ import { resetAlert } from "../../../application/actions/alert";
 import { setLocation } from "../../../application/actions/location";
 import { getCurrentUser, getAllUsers } from "../../../application/actions/users";
 import { getBlogs } from "../../../application/actions/blogs";
-import { getFriendRequests } from "../../../application/actions/friends";
+import { getFriendRequests, getFriends } from "../../../application/actions/friends";
+import 'animate.css';
 
 export default function EffectsManagement({}) {
     const alert = useSelector((state)=>state.alert);
+    const user = useSelector((state)=>state.users);
     const location  = useSelector((state)=>state.location);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -22,17 +24,17 @@ export default function EffectsManagement({}) {
                 html: `<p style="font-family:'Poppins',sans-serif;font-size:1.3rem">${alert.message}</p>`,
                 showConfirmButton: false,
                 timer: 3000,
+                showClass: {
+                    popup: "animate__fadeIn"
+                },
+                hideClass: {
+                    popup: "animate__fadeOut"
+                }
             }).then(()=> {
                 dispatch(resetAlert);
             })
         }
     }, [alert]);
-
-    useEffect(()=> { 
-        dispatch(getCurrentUser);
-        dispatch(getFriendRequests());
-        dispatch(getBlogs());
-     }, []);
 
 
     useEffect(()=> { 

@@ -15,7 +15,7 @@ export const PageContainer = style.div`
     }
 
     & > form {
-        width: 500px;
+        width: min(50%, 500px);
     }
 `;
 

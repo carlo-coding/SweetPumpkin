@@ -1,18 +1,18 @@
-import { SET_FRIEND_REQUESTS } from "../actions/friends";
+import { SET_FRIEND_REQUESTS, SET_FRIENDS } from "../actions/friends";
 
 const initialState =  {
     friendRequests: [],
+    friends: [],
 }
 
-const reducer = (state = initialState, action) => {
-    console.log("friends from reducer: ", action)
+export default function reducer(state = initialState, action){
     switch (action.type) {
         case SET_FRIEND_REQUESTS:
-            return {friendRequests: action.payload};
+            return {...state, friendRequests: action.payload};
+        case SET_FRIENDS:
+            return {...state, friends: action.payload};
         default:
             return state;
     }
 }
 
-
-export default reducer;

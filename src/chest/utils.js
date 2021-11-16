@@ -15,7 +15,7 @@ export const parseObjectToUser = (parseObject) => parseObject
 }) 
 : undefined;
 
-export function theyMatch(str1, str2) {
+export function theyMatch(str1="", str2="") {
     const simplifiedStr1 = str1.toLowerCase().split(" ").join("");
     const simplifiedStr2 = str2.toLowerCase().split(" ").join("");
     return Boolean(simplifiedStr1.match(new RegExp(simplifiedStr2)));

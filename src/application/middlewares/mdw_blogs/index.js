@@ -7,19 +7,21 @@ export const flowPostBlog = ({ api, log }) => ({ dispatch }) => next => async ac
     if (action.type === POST_BLOG) {
         try {
             const { message } = await api.blogs.post(action.payload);
+            const allBlogs = await api.blogs.getAll();
+            dispatch(setBlogs(allBlogs));
             dispatch(showSuccess( message ));
-            dispatch(setLocation({href: "/profile", go: true}))
+            dispatch(setLocation({href: "/profile", go: true}));
         }catch(err) {
             dispatch(showError(err.message));
         }
     }
     next(action);
-}
+} 
 
 export const flowGetBlogs = ({ api, log }) => ({ dispatch }) => next => async action => {
     if (action.type === GET_BLOGS) {
         try {
-            const allBlogs = await api.blogs.getAll();
+            const allBlogs = await api.blogs.getAll(action.payload);
             dispatch(setBlogs(allBlogs));
         }catch(err) {
             dispatch(showError(err.message));

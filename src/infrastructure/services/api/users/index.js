@@ -32,16 +32,14 @@ async function login(userData) {
     initializeParse();
     // Hacemos el login con parse
     const { email, password } = userData;
-    const user = await (await Parse.User.logIn(email, password)).toJSON();
+    const user = await (await Parse.User.logIn(email, password))?.toJSON();
     
     return {message: "Logeado con éxito", user};
 }
 
 async function currentUser() {
     initializeParse();
-    const currentUser = await (await Parse.User.current()).toJSON();
-
-
+    const currentUser = await (await Parse.User.current())?.toJSON();
     return currentUser;
 }
 
@@ -63,7 +61,7 @@ async function byId(id) {
     // Buscamos la info del usuario
     const userQuery = new Parse.Query("User");
     userQuery.equalTo("userId", id);
-    const user = await (await userQuery.first()).toJSON();
+    const user = await (await userQuery.first())?.toJSON();
     return { user };
 }
 
@@ -73,11 +71,11 @@ async function update(user) {
     userQuery.equalTo("userId", user.userId);
     const foundUser = await userQuery.first();
 
-    foundUser.set("name", user.name)
-    foundUser.set("lastName", user.lastName)
-    foundUser.set("email", user.email)
-    foundUser.set("about", user.about)
-    foundUser.set("fileUrl", user.fileUrl)
+    user.name       && foundUser.set("name",        user.name)
+    user.lastName   && foundUser.set("lastName",    user.lastName)
+    user.email      && foundUser.set("email",       user.email)
+    user.about      && foundUser.set("about",       user.about)
+    user.fileUrl    && foundUser.set("fileUrl",     user.fileUrl)
 
     foundUser.save();
 

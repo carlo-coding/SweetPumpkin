@@ -2,25 +2,34 @@ import React, { useState, useEffect } from "react";
 import { PageContainer } from "./styles";
 import { useDispatch, useSelector, connect } from "react-redux";
 import { theyMatch, properName, createId } from "../../../chest/utils";
-import Search from "../../components/Search";
 import { getAllUsers } from "../../../application/actions/users";
 import { sendFriendRequest } from "../../../application/actions/friends";
 import { Grid, UserCard } from "./styles";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import AutoComplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 
-function SearchUser({users}) {
-    const allUsers = useSelector(state=>state.users.all);
-    const friends = useSelector(state=>state.users.data?.friends);
+
+function SearchUser({ users , friends }) {
     const [query, setQuery] = useState("");
     const dispatch = useDispatch();
 
-    useEffect(()=> { dispatch(getAllUsers) }, []);
+    useEffect(()=> { dispatch(getAllUsers()) }, []);
 
     return (
         <PageContainer>
-            <Search {...{query, setQuery, items: users?.map(u=>properName(u.name, u.lastName))}}></Search>
+            {users && (
+                <AutoComplete 
+                    id="combo-box-demo"
+                    options={ users?.map(u=>({label: properName(u.name, u.lastName)}))}
+                    sx={{ width: 400 }}
+                    value={query}
+                    onChange={(_, newValue)=> setQuery(newValue)}
+                    renderInput={(params) => <TextField {...params} label="Buscar" />}
+                />
+            )}
             <Grid>
-            {users?.filter(u=>theyMatch(properName(u.name, u.lastName), query)).map(user=> {
+            {users?.filter(u=>theyMatch(properName(u.name, u.lastName), query?.label || "")).map(user=> {
                 return (
                     <UserCard key={createId()}>
                         <img src={user.fileUrl}/>
@@ -51,7 +60,8 @@ function SearchUser({users}) {
 
 const mapStateToProps = (state) => {
     return {
-        users: state.users.all
+        users: state.users.all,
+        friends: state.friends.friends
     }
 }
 

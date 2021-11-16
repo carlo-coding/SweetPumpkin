@@ -7,7 +7,6 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     if (action.type === SET_LOCATION) {
-        console.log(action.payload)
         return action.payload;
     }
     return state;

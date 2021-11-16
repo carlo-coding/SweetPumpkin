@@ -12,14 +12,3 @@ export const fileInfo = (fileId) => ({
     type: FILE_INFO,
     payload: fileId
 })
-
-/*
-const reader = new FileReader();
-    reader.readAsBinaryString(file);
-    reader.addEventListener("load", (e)=> {
-        const base64String = window.btoa(e.target.result);
-        console.log(base64String);
-        return {
-            type
-        }
-    }); */

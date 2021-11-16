@@ -3,7 +3,7 @@ import {useUpdateEffect} from "../../../chest/CustomHooks";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useSelector, useDispatch } from 'react-redux';
-import { updateUser, updateProfileImge } from "../../../application/actions/users";
+import { updateUser, updateProfileImage } from "../../../application/actions/users";
 import Text from "../../components/Validations/Text";
 import {Image, USLImage, validImageExtension} from "../../components/Validations/Image";
 import { PageContainer, SubmitButton, Textarea } from "./styles";
@@ -13,8 +13,6 @@ import { PageContainer, SubmitButton, Textarea } from "./styles";
 export default function RegisterUser({}) {
     const user = useSelector(state => state.users.data);
     
-    const fileUrl = useSelector(state=> state.files.fileUrl);
-
     const dispatch = useDispatch();
 
 
@@ -29,7 +27,7 @@ export default function RegisterUser({}) {
             const {userId} = user;
             dispatch(updateUser({...data, userId}))
             if (data.photo?.[0]) {
-                dispatch(updateProfileImge(data.photo?.[0]));
+                dispatch(updateProfileImage(data.photo?.[0]));
             }
         },
         validationSchema: Yup.object({

@@ -9,7 +9,7 @@ function initializeParse() {
 
 async function post(blog) {
     initializeParse();
-    const { userId } = (await Parse.User.current()).toJSON();
+    const { userId } = (await Parse.User.current())?.toJSON();
     const Blog = new Parse.Object("Blogs");
     const date = new Date(Date.now()).toLocaleDateString();
 
@@ -22,16 +22,13 @@ async function post(blog) {
     return { message: "Blog publicado con exito"};
 }
 
-async function getAll() {
-    const { userId } = (await Parse.User.current()).toJSON();
+async function getAll(id="") {
+    const userId = (await Parse.User.current())?.toJSON()?.userId || "";
     const blogQuery = new Parse.Query("Blogs");
 
-    blogQuery.contains("author", userId);
+    blogQuery.contains("author", id || userId);
 
-    const allBlogs = (await blogQuery.findAll()).map(blog=> blog.toJSON());
-
-    console.log("TODOS LOS BLOGS", allBlogs);
-
+    const allBlogs = (await blogQuery.findAll()).map(blog=> blog?.toJSON());
     return allBlogs;
 }
 

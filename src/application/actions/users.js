@@ -12,32 +12,17 @@ export const UPDATE_PROFILE_IMAGE = "[user] profile image";
 export const REQUEST_PASSWORD_RESET = "[user] request password reset";
 ;
 
-export const createNewUser = (userData) => {
-    return {
-        type: CREATE_NEW_USER,
-        payload: userData,
-    }
-}
+export const createNewUser = (userData) => ({type: CREATE_NEW_USER, payload: userData});
 
-export const loginUser = (userData) => {
-    return {
-        type: LOGIN_USER,
-        payload: userData,
-    }
-}
+export const loginUser = (userData) => ({type: LOGIN_USER, payload: userData});
 
-export const setUserInfo = (userData) => {
-    return {
-        type: SET_USER_INFO,
-        payload: userData,
-    }
-}
+export const setUserInfo = (userData) => ({ type: SET_USER_INFO, payload: userData });
 
-export const getCurrentUser = {type: GET_CURRENT_USER};
+export const getCurrentUser = ()  => ({type: GET_CURRENT_USER});
 
-export const logOut = {type: LOGOUT_USER}
+export const logOut = () => ({type: LOGOUT_USER});
 
-export const getAllUsers = {type: GET_ALL_USERS};
+export const getAllUsers = () => ({type: GET_ALL_USERS});
 
 export const setUsers = (users) => ({type: SET_USERS, payload: users});
 
@@ -47,6 +32,6 @@ export const setFoundUser = (user) => ({type: SET_FOUND_USER, payload: user});
 
 export const updateUser  = (user) => ({type: UPDATE_USER, payload: user});
 
-export const updateProfileImge = (image) => ({type: UPDATE_PROFILE_IMAGE, payload: image});
+export const updateProfileImage = (image) => ({type: UPDATE_PROFILE_IMAGE, payload: image});
 
 export const requestPasswordReset = (email) => ({type: REQUEST_PASSWORD_RESET, payload: email});

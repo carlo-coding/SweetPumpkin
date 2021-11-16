@@ -19,7 +19,8 @@ import {
     flowGetFriendRequests,
     flowAcceptFriend,
     flowDeclineFriend,
-    flowDeleteFriend 
+    flowDeleteFriend,
+    flowGetFriends
 } from "./mdw_friends";
 
 import {
@@ -43,6 +44,7 @@ export default [
     flowDeclineFriend,
     flowAcceptFriend,
     flowDeleteFriend,
+    flowGetFriends,
     flowPostBlog,
     flowGetBlogs
 ];
