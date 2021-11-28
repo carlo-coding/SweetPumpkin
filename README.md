@@ -1,8 +1,6 @@
-# Blue pumpkin social network
+# Sweet pumpkin social network
 
-![plot](./src/chest/files/pumpkin-logo.png)
 
 A simple social network made on react using a clean architecture.
-the goal is to offer an alternative to the traditional social networks.
 
-You can visit the site on this link: https://bluepumpkin.netlify.app
+You can visit the site on this link: https://sweetpumpkin.netlify.app/

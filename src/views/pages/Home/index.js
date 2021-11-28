@@ -7,7 +7,6 @@ export default function Home({}) {
     return (
         <PageContainer>
             <img src={pumpkin}/>
-            <p>Una pequeña red social que aspira a ser una alternativa que escucha a la comunidad.</p>
         </PageContainer>
     );
 }
