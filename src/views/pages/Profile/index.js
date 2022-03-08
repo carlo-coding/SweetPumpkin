@@ -7,10 +7,11 @@ import {
     connect
 } from "react-redux";
 import { 
-    Link 
+    Link ,
+    useHistory
 } from "react-router-dom";
 import { 
-    properName 
+    properName, warningMessage
 } from "../../../chest/utils";
 import { 
     PageContainer, 
@@ -18,7 +19,8 @@ import {
     UserInfo, 
     EditInfo, 
     BlogsContainer,
-    ProfileSection
+    ProfileSection,
+    BlogContent
 } from "./styles";
 import {
      RiFileEditFill, 
@@ -45,6 +47,13 @@ import {
 import Avatar from "@mui/material/Avatar";
 
 import { createId } from "../../../chest/utils";
+
+import Swal from "sweetalert2";
+import Blog from "../../components/Blog";
+
+import { BsFillChatLeftTextFill } from "react-icons/bs";
+
+import LiveChat from "../../components/LiveChat";
 
 
 function Profile({ friendRequests, friends, blogs, user }) {
@@ -91,7 +100,7 @@ function Profile({ friendRequests, friends, blogs, user }) {
                     </UserInfo>
                 </ProfileSection>
 
-                <HandleFriends {...{ friendRequests, friends }}/>
+                <HandleFriends {...{ friendRequests, friends, user }}/>
 
                 <HandleBlogs {...{blogs}}/>
 
@@ -101,28 +110,50 @@ function Profile({ friendRequests, friends, blogs, user }) {
     </>;
 }
 
-
 function HandleBlogs({ blogs }) {
     return (
         <BlogsContainer>
             <p>Publicaciones</p>
             {blogs && (
-                blogs.map((blog)=> <div key={createId()}>
-                    {blog.date && <p>Fecha: {blog.date}</p>}
-                    <div dangerouslySetInnerHTML={{__html: blog.content}}></div>
-                </div>)
+                blogs.map((blog)=> <Blog key={createId()} {...{blog}}/>)
                 )
             }
         </BlogsContainer>
     );
 }
 
-function HandleFriends({ friendRequests, friends }) {
+function HandleFriends({ friendRequests, friends, user }) {
+
+    const [openModal, setOpenModal] = React.useState(false);
+
+    const [receiver, setReceiver] = React.useState({});
+
+    const handleChatClick = (fr)=> {
+        setReceiver(fr);
+        setOpenModal(true)
+    }
 
     const dispatch = useDispatch();
 
+    const handleDeleteFriend = async (fr) => {
+        let msg = `¿ Seguro que quieres eliminar a ${fr.name} ?`
+        const confirmed = await warningMessage(msg)
+        if (confirmed) {
+            dispatch(deleteFriend(fr))
+        }
+    }
+
     return (
         <FRequests>
+            {user && (
+                <LiveChat 
+                    {...{
+                        receiver,
+                        openModal, 
+                        setOpenModal
+                    }}
+                />
+            )}
                 <div> 
                     <p>Amigos</p>
                     {(friends?.length > 0 ) && (
@@ -131,7 +162,15 @@ function HandleFriends({ friendRequests, friends }) {
                                 <div key={i}>
                                     <img src={fr.fileUrl} alt="friend-image"/> 
                                     <Link to={"/profile/"+fr.userId}>{fr.name}</Link>
-                                    <button onClick={_=>dispatch(deleteFriend(fr))}>Eliminar</button>
+
+                                    <button 
+                                        onClick={_=>handleDeleteFriend(fr)}
+                                    >Eliminar</button>
+
+                                    <BsFillChatLeftTextFill 
+                                        onClick={_=>handleChatClick(fr)}
+                                    />
+
                                 </div>
                             ))}
                         </div>
@@ -161,7 +200,7 @@ function mapStateToProps(state) {
         friendRequests: state.friends.friendRequests, 
         friends: state.friends.friends,
         user: state.users.data,
-        blogs: state.blogs.all
+        blogs: state.blogs.all,
     }
 }
 

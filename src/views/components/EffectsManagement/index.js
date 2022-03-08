@@ -44,5 +44,10 @@ export default function EffectsManagement({}) {
         }
     }, [location]);
 
+
+    useEffect(()=> {
+        dispatch(getCurrentUser());
+    }, []);
+
     return <></>
 }

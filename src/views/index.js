@@ -12,6 +12,7 @@ import EditInfo from "./pages/EditInfo";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
 import WriteBlog from "./pages/WriteBlog";
+import EditBlog from "./pages/EditBlog";
 
 export default function MainView({}) {
     const user = useSelector(state=> state.users.data);
@@ -46,6 +47,9 @@ export default function MainView({}) {
                         <Route exact path="/edit-info">
                             <EditInfo />
                         </Route>    
+                        <Route exact path="/edit-blog/:blogId">
+                            <EditBlog />
+                        </Route>  
                         <Route exact path="/write-blog">
                             <WriteBlog />
                         </Route>

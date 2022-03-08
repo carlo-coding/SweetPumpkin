@@ -53,6 +53,7 @@ async function getFriendRequests() {
 }
 
 async function getFriends(id) {
+    console.log("🚀 ~ file: index.js ~ line 56 ~ getFriends ~ id", id)
     const query1 = new Parse.Query("FriendRequests");
     const query2 = new Parse.Query("FriendRequests");
     const { userId } = await Parse.User.current().toJSON();
@@ -68,6 +69,7 @@ async function getFriends(id) {
 }
 
 async function accept({ from, to }) {
+    console.log("🚀 ~ file: index.js ~ line 71 ~ accept ~  from, to",  from, to)
     initializeParse();
     const FriendRequests = new Parse.Query("FriendRequests");
     FriendRequests.contains("from", from);

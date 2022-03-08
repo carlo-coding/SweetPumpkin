@@ -1,5 +1,5 @@
 import Parse from "parse";
-import { parseObjectToUser, createId } from "../../../../chest/utils";
+import { parseObjectToUser, createId, setEachEntry } from "../../../../chest/utils";
 import { APPLICATION_ID, HOST_URL , JAVASCRIPT_KEY, REST_API_KEY } from "../../../../chest/config"; 
 
 function initializeParse() {
@@ -32,7 +32,45 @@ async function getAll(id="") {
     return allBlogs;
 }
 
+async function appendRating({rating, blogId}) {
+    const blogQuery = new Parse.Query("Blogs");
+    blogQuery.contains("objectId", blogId);
+    const blog = await blogQuery.first();
+
+    let ratings = blog.get("ratings") || [];
+
+    ratings = [...ratings, rating];
+
+    blog.set("ratings", ratings);
+
+    blog.save()
+
+}
+
+async function deleteBlog (blogId) {
+    const blogQuery = new Parse.Query("Blogs");
+    blogQuery.contains("objectId", blogId);
+    const blog = await blogQuery.first();
+    blog.destroy();
+
+    return { message: "Blog eliminado" }
+}
+
+async function editBlog (newContent) {
+    const blogQuery = new Parse.Query("Blogs");
+    blogQuery.contains("objectId", newContent.objectId);
+    const blog = await blogQuery.first();
+
+    setEachEntry(blog, newContent);
+    blog.save();
+
+    return { message: "Blog editado" }
+}
+
 export default {
     post,
-    getAll
+    getAll,
+    appendRating,
+    deleteBlog,
+    editBlog
 }

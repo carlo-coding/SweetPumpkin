@@ -69,7 +69,7 @@ export const flowAcceptFriend = ({ api, log }) => ({ dispatch }) => next => asyn
     if (action.type === ACCEPT_FRIEND) {
         try {
             const { message } = await api.friends.accept(action.payload);
-            const { friends } = await api.friends.getFriends(action.payload);
+            const { friends } = await api.friends.getFriends();
             const friendRequests = await api.friends.getFriendRequests();
             dispatch(setFriendRequests( friendRequests.friends ));
             dispatch(setFriends( friends ));

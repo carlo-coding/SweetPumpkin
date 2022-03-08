@@ -4,8 +4,8 @@ export const PageContainer = style.div`
     width: 100vw;
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
 
     & > p {
         width: 80%;
@@ -18,6 +18,11 @@ export const PageContainer = style.div`
 
     & > img {
         margin: 2rem;
+    }
+
+    & > div {
+        width: 400px;
+        height: 400px;
     }
 `;
 

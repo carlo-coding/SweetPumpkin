@@ -6,4 +6,6 @@ export const JAVASCRIPT_KEY = process.env.PARSE_JAVASCRIPT_KEY || "4R4yAGS4mGw4U
 
 export const REST_API_KEY = process.env.PARSE_REST_API_KEY || "vOMMgYigvjpKKtQX3dAVzVDxduydLb2ORsibVvcg";
 
-export const BACK4APP_SUBDOMAIN = process.env.BACK4APP_SUBDOMAIN || "pumpkin.b4a.io";
+export const BACK4APP_SUBDOMAIN = process.env.BACK4APP_SUBDOMAIN || "bluepumpkin.b4a.io";
+
+export const SOCKET_URL = "ws://localhost:4000";

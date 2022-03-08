@@ -112,16 +112,8 @@ export const BlogsContainer = style.div`
     display: flex;
     flex-direction: column;
     max-width: 100%;
+    min-width: 99%;
     overflow-x: auto;
-    & > div {
-        border: 1px solid #ccc;
-        margin: 1em 0;
-        padding: 1em;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
 `;
 
 export const ProfileSection = style.section`
